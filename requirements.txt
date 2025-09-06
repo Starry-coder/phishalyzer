@@ -1,0 +1,7 @@
+beautifulsoup4
+dnspython
+requests
+python-magic
+dkimpy
+pyspf
+colorama
