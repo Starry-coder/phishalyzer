@@ -1,0 +1,15 @@
+From: "Bank Security" <alerts@secure-banking.xyz>
+To: you@example.com
+Subject: Urgent: Verify your account
+Date: Fri, 6 Sep 2024 12:34:56 +0000
+Return-Path: <fraud@phishy-domain.ru>
+Received: from 185.100.87.1 (unknown [185.100.87.1])
+
+<html>
+<body>
+<p>Dear customer,</p>
+<p>Your account has been <b>suspended</b>. Please <a href="http://bad-domain.ru/login">click here</a> to verify immediately.</p>
+<p>Bank Security Team</p>
+</body>
+</html>
+
