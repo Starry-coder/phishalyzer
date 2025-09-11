@@ -24,7 +24,7 @@ The tool parses `.eml` files, extracts headers, links, and attachments, applies 
 ---
 
 ## 📂 Repository Structure
-phish-analyzer/
+phishalyzer/
 ├─ README.md # project overview
 ├─ requirements.txt # Python dependencies
 ├─ mvp/
@@ -40,5 +40,30 @@ phish-analyzer/
 
 ### 1. Clone the repo
 ```bash
-git clone https://github.com/<your-username>/phish-analyzer.git
-cd phish-analyzer
+git clone https://github.com/Starry-coder/phishalyzer.git
+cd phishalyzer
+```
+
+### 2. Create a virtual environment
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+### 3. Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## Usage
+To analyze an email, run the `analyze_eml.py` script with the path to the `.eml` file:
+```bash
+python mvp/analyze_eml.py -f mvp/test_emails/sample.eml
+```
+
+For more options, see the help menu:
+```bash
+python mvp/analyze_eml.py -h
+```
