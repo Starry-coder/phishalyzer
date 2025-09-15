@@ -187,3 +187,4 @@ if __name__ == "__main__":
     parser.add_argument("-f", "--file", required=True, help="Path to the .eml file to analyze.")
     args = parser.parse_args()
     analyze_eml(args.file)
+z
