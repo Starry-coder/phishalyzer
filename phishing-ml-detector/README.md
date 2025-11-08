@@ -14,9 +14,7 @@ phishing-ml-detector
 │   │   ├── model.py            # Machine learning model architecture
 │   │   └── predict.py          # Functions for making predictions
 │   ├── pipeline
-│   │   ├── preprocess.py       # Preprocessing steps for email data
-│   │   ├── train.py            # Training the machine learning model
-│   │   └── evaluate.py         # Evaluating model performance
+│   │   └── train.py            # Training the machine learning model (TF-IDF + numeric)
 │   └── utils
 │       └── parsing.py          # Utility functions for parsing email content
 ├── data
@@ -31,8 +29,8 @@ phishing-ml-detector
 │   ├── test_model.py           # Unit tests for machine learning model
 │   └── test_analyze_eml.py     # Unit tests for email analysis functions
 ├── scripts
-│   ├── prepare_data.py         # Script for preparing data for training
-│   └── export_model.py         # Script for exporting the trained model
+│   ├── prepare_data.py         # Optional split preparation (synthetic/Kaggle)
+│   └── ingest_kaggle.py        # Kaggle dataset download + summary
 ├── config
 │   └── config.yaml             # Configuration settings for the project
 ├── requirements.txt            # Python dependencies required for the project
@@ -55,6 +53,7 @@ Fetch a small subset of the Kaggle phishing email dataset and show class distrib
 python phishing-ml-detector/scripts/ingest_kaggle.py --subset 500 --refresh
 ```
 Cached files will live under `phishing-ml-detector/data/raw/kaggle_phishing/`.
+If `data/raw` is a file (placeholder) in your checkout, the loader falls back to `phishing-ml-detector/data/kaggle_phishing/` automatically.
 
 ### 3. Train Model
 Fast experiment (subset):

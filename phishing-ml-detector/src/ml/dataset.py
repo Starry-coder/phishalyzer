@@ -1,45 +1,10 @@
 import pandas as pd
 import os
-import json
 import re
 import numpy as np
 from typing import Optional, List, Dict
 
 SUSPICIOUS_WORDS = {"urgent", "verify", "password", "bank", "click here", "account", "confirm", "login"}
-
-class EmailDataset:
-    def __init__(self, raw_data_path, processed_data_path):
-        self.raw_data_path = raw_data_path
-        self.processed_data_path = processed_data_path
-
-    def load_raw_data(self):
-        emails = []
-        for filename in os.listdir(self.raw_data_path):
-            if filename.endswith('.eml'):
-                with open(os.path.join(self.raw_data_path, filename), 'r', encoding='utf-8') as file:
-                    emails.append(file.read())
-        return emails
-
-    def save_processed_data(self, data, filename):
-        with open(os.path.join(self.processed_data_path, filename), 'w', encoding='utf-8') as file:
-            json.dump(data, file)
-
-    def load_processed_data(self, filename):
-        with open(os.path.join(self.processed_data_path, filename), 'r', encoding='utf-8') as file:
-            return json.load(file)
-
-    def preprocess_data(self, raw_emails):
-        processed_data = []
-        for email in raw_emails:
-            # Placeholder for actual preprocessing logic
-            processed_data.append({"email": email, "label": "unknown"})
-        return processed_data
-
-    def prepare_dataset(self):
-        raw_emails = self.load_raw_data()
-        processed_data = self.preprocess_data(raw_emails)
-        self.save_processed_data(processed_data, 'processed_emails.json')
-        return processed_data
 
 def load_data(_path: str | None = None):
     """
@@ -146,6 +111,13 @@ def load_kaggle_phishing_dataset(
     except ImportError as e:
         raise ImportError("kagglehub not installed. Run: pip install kagglehub[pandas-datasets]") from e
 
+    # Ensure cache directory exists; if parent path is a file (e.g., data/raw is a file),
+    # fall back to a safe default under data/kaggle_phishing
+    parent_dir = os.path.dirname(local_cache_dir)
+    if os.path.exists(parent_dir) and not os.path.isdir(parent_dir):
+        safe_cache = os.path.join("data", "kaggle_phishing")
+        print(f"[WARN] {parent_dir} exists but is not a directory; using {safe_cache} instead.")
+        local_cache_dir = safe_cache
     os.makedirs(local_cache_dir, exist_ok=True)
     cache_file = os.path.join(local_cache_dir, "phishing_email_dataset.parquet")
 

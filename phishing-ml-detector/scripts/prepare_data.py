@@ -20,6 +20,11 @@ from ml.dataset import load_kaggle_phishing_dataset, load_data
 
 
 def prepare_data(processed_data_path: str, use_kaggle: bool = True, subset: int | None = None):
+    # If processed_data_path exists as a file (e.g., placeholder), fall back to a safe directory
+    if os.path.exists(processed_data_path) and not os.path.isdir(processed_data_path):
+        fallback = str((CURRENT_DIR.parent / "data" / "processed").resolve())
+        print(f"[WARN] {processed_data_path} exists and is not a directory; using {fallback} instead.")
+        processed_data_path = fallback
     if use_kaggle:
         try:
             data = load_kaggle_phishing_dataset(subset=subset)
