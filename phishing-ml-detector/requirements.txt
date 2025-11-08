@@ -1,0 +1,10 @@
+numpy
+pandas
+scikit-learn
+beautifulsoup4
+email-validator
+colorama
+jupyter
+pytest
+pyyaml
+kagglehub[pandas-datasets]

@@ -24,15 +24,15 @@ The tool parses `.eml` files, extracts headers, links, and attachments, applies 
 ---
 
 ## 📂 Repository Structure
-phishalyzer/
-├─ README.md # project overview
-├─ requirements.txt # Python dependencies
-├─ mvp/
-│ ├─ analyze_eml.py # MVP CLI analyzer
-│ └─ test_emails/ # sample .eml files for testing
-├─ webapp/ # (future) Flask/React web UI
-├─ sandbox/ # (future) sandbox integrations
-└─ docs/ # project documentation
+phishalyzer/   
+├─ README.md # project overview   
+├─ requirements.txt # Python dependencies   
+├─ mvp/   
+│ ├─ analyze_eml.py # MVP CLI analyzer   
+│ └─ test_emails/ # sample .eml files for testing   
+├─ webapp/ # (future) Flask/React web UI   
+├─ sandbox/ # (future) sandbox integrations   
+└─ docs/ # project documentation   
 
 ---
 

@@ -1,0 +1,16 @@
+{
+  "label_threshold": 0.5,
+  "metrics": {
+    "accuracy": 0.8833333333333333,
+    "f1": 0.8923076923076924,
+    "roc_auc": 0.9408482142857143
+  },
+  "feature_columns": [
+    "email_length",
+    "num_links",
+    "num_suspicious_words",
+    "num_attachments"
+  ],
+  "vocab": "tfidf",
+  "subset": 300
+}

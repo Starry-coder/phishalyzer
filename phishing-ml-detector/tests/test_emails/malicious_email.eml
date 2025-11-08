@@ -1,0 +1,15 @@
+From: payroll@secure-payments.ru
+To: you@example.com
+Subject: Verify your password immediately
+Date: Sat, 01 Jan 2022 12:00:00 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset=UTF-8
+
+<html>
+  <body>
+    <p>Urgent action required. Your account will be closed.</p>
+    <a href="http://dangerous.example.ru/reset">Reset Password</a>
+    <a href="http://dangerous.example.top/verify">Verify</a>
+    <p>Attachment included</p>
+  </body>
+</html>

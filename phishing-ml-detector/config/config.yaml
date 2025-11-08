@@ -1,0 +1,31 @@
+model:
+  type: "RandomForestClassifier"
+  parameters:
+    n_estimators: 100
+    max_depth: 10
+    random_state: 42
+
+data:
+  raw_data_path: "data/raw/"
+  processed_data_path: "data/processed/"
+
+features:
+  extraction:
+    methods:
+      - "text_length"
+      - "suspicious_words"
+      - "link_count"
+      - "attachment_count"
+
+training:
+  test_size: 0.2
+  random_state: 42
+  metrics:
+    - "accuracy"
+    - "precision"
+    - "recall"
+    - "f1_score"
+
+logging:
+  level: "INFO"
+  file: "logs/training.log"
