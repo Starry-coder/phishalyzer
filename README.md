@@ -1,69 +1,115 @@
-# 🛡️ Phishing Email Analyzer
+# 🛡️ Phishalyzer
 
-A project to analyze suspicious emails and detect phishing attempts.  
-The tool parses `.eml` files, extracts headers, links, and attachments, applies heuristics, and generates a security verdict.  
-
----
-
-## 🚀 Features (MVP)
-- Parse `.eml` email files  
-- Extract headers (From, Subject, Return-Path, Received, etc.)  
-- Identify embedded links & mismatched domains  
-- Detect urgency keywords and suspicious wording  
-- Inspect attachments and flag risky file types  
-- Basic heuristic scoring with verdict: **SAFE | SUSPICIOUS | MALICIOUS**  
-- Output results as structured JSON  
+Phishalyzer helps detect phishing emails. The project now includes a machine‑learning (ML) detector with a TF‑IDF + numeric feature Logistic Regression model in addition to the original heuristic MVP.
 
 ---
 
-## 🛠️ Tech Stack
-- **Language:** Python 3.10+  
-- **Libraries:** `email`, `beautifulsoup4`, `dnspython`, `dkimpy`, `pyspf`, `requests`  
-- **Optional APIs:** VirusTotal, AbuseIPDB (future work)  
+## 🎯 Components
+| Component | Path | Description |
+|-----------|------|-------------|
+| Heuristic MVP | `mvp/analyze_eml.py` | Original rule/keyword based analyzer for quick baseline |
+| ML Detector | `phishing-ml-detector/src/analyze_eml.py` | Parses `.eml`, extracts features, loads trained model, produces verdict & reasons |
+| Training Pipeline | `phishing-ml-detector/src/pipeline/train.py` | Builds TF‑IDF + numeric feature pipeline, optimizes probability threshold |
+| Feature Extraction | `phishing-ml-detector/src/ml/features.py` | Suspicious words, links, lengths, attachments counts |
+| Dataset Loader | `phishing-ml-detector/src/ml/dataset.py` | Synthetic + Kaggle phishing dataset integration & caching |
 
 ---
 
-## 📂 Repository Structure
-phishalyzer/   
-├─ README.md # project overview   
-├─ requirements.txt # Python dependencies   
-├─ mvp/   
-│ ├─ analyze_eml.py # MVP CLI analyzer   
-│ └─ test_emails/ # sample .eml files for testing   
-├─ webapp/ # (future) Flask/React web UI   
-├─ sandbox/ # (future) sandbox integrations   
-└─ docs/ # project documentation   
+## 🤖 ML Detector Highlights
+- TF‑IDF word + bigram features + numeric signals (links, suspicious words, length, attachments)
+- Automatic probability threshold optimization for F1; stored in `models/phishing_model_meta.json`
+- Structured JSON output with score bands: SAFE / SUSPICIOUS / MALICIOUS
+- Kaggle dataset caching under `phishing-ml-detector/data/raw/kaggle_phishing/` (fallback to `data/kaggle_phishing/` if placeholder path)
+
+For deeper ML details see `phishing-ml-detector/README.md`.
 
 ---
 
-## ⚡ Getting Started
+## 📂 Top-Level Structure
+```
+phishalyzer/
+├─ README.md
+├─ requirements.txt
+├─ mvp/
+│  ├─ analyze_eml.py
+│  └─ test_emails/
+└─ phishing-ml-detector/
+	├─ README.md
+	├─ requirements.txt
+	├─ src/ (analyzer, ml/, pipeline/, utils/)
+	├─ scripts/ (ingest_kaggle.py, prepare_data.py)
+	├─ data/ (raw/, processed/)
+	├─ models/ (phishing_model.pkl, phishing_model_meta.json after training)
+	└─ tests/
+```
 
-### 1. Clone the repo
+---
+
+## ⚡ Quickstart (ML Version)
+
+### 1. Clone & enter
 ```bash
 git clone https://github.com/Starry-coder/phishalyzer.git
 cd phishalyzer
 ```
 
-### 2. Create a virtual environment
+### 2. Environment & deps (root + ML requirements)
 ```bash
-python3 -m venv venv
-source venv/bin/activate
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r phishing-ml-detector/requirements.txt
 ```
 
-### 3. Install dependencies
+### 3. (Optional) Preview Kaggle dataset
 ```bash
-pip install -r requirements.txt
+python phishing-ml-detector/scripts/ingest_kaggle.py --subset 500 --refresh
+```
+
+### 4. Train model
+```bash
+python phishing-ml-detector/src/pipeline/train.py --subset 500
+```
+Artifacts appear in `phishing-ml-detector/models/`.
+
+### 5. Analyze email with ML
+```bash
+python phishing-ml-detector/src/analyze_eml.py -f phishing-ml-detector/tests/test_emails/valid_email.eml
+```
+
+### 6. Run tests
+```bash
+pytest -q phishing-ml-detector/tests
 ```
 
 ---
 
-## Usage
-To analyze an email, run the `analyze_eml.py` script with the path to the `.eml` file:
+## 🧪 Heuristic Analyzer (Legacy)
+Still available for comparison:
 ```bash
 python mvp/analyze_eml.py -f mvp/test_emails/sample.eml
 ```
 
-For more options, see the help menu:
-```bash
-python mvp/analyze_eml.py -h
-```
+---
+
+## 🔧 Extending
+1. Add new numeric features in `phishing-ml-detector/src/ml/dataset.py` or `features.py`.
+2. Retrain via `train.py`.
+3. Analyzer automatically picks up new model & threshold.
+
+---
+
+## 📈 Roadmap Ideas
+- Domain reputation & WHOIS age feature
+- Sender DMARC/SPF alignment scoring
+- Attachment static analysis (MIME + basic heuristics)
+- Model calibration (Platt scaling) & confidence band explanation
+
+---
+
+## 📝 License
+MIT
+
+---
+
+## 🙌 Contributing
+PRs & issues welcome. Please include tests for new logic.
