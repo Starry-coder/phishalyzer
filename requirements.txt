@@ -4,4 +4,12 @@ requests
 python-magic
 dkimpy
 pyspf
+numpy
+pandas
+scikit-learn
+email-validator
 colorama
+jupyter
+pytest
+pyyaml
+kagglehub[pandas-datasets]
