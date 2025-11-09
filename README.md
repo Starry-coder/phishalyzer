@@ -110,6 +110,3 @@ python mvp/analyze_eml.py -f mvp/test_emails/sample.eml
 MIT
 
 ---
-
-## 🙌 Contributing
-PRs & issues welcome. Please include tests for new logic.
